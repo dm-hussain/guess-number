@@ -9,15 +9,33 @@ let guessValue = Math.floor(Math.random() * 100 + 1);
  
 
 let userValArr = [];
-
+let count=0;
 form.addEventListener('submit', (e) => {
+  count++;
   e.preventDefault();
   msgContainer.classList.remove('hidden');
   let userValue = +userInpEl.value;
   userValArr.push(userValue);
   userGuessEl.innerHTML = `Your guesses: ${userValArr.join(', ')}`;
  
+  if(count>=7){
+  
+    msgEl.innerText = `You Lost the game!`;
+    msgEl.style = `color:rgb(255, 255, 255);
+    font-weight: 700;`;
+    msgContainer.style.backgroundColor = 'red';
+    userGuessEl.style.color = 'white';
+    submitBtn.setAttribute('disabled', true);
+    newGameBtn.disabled=false;
+    userValArr = [];
+    count=0;
+    userInpEl.value = '';
+    newGameBtn.focus()
+    
+  } else{
+
   if (userValue === guessValue) {
+ 
     msgEl.innerText = `Congrats! You guess the right number`;
     msgEl.style.color = 'white';
     userGuessEl.style.color = 'white';
@@ -30,25 +48,32 @@ form.addEventListener('submit', (e) => {
   } else {
     msgEl.innerText = `Too High!`;
   }
-  // userInpEl.value = '';
   form.reset();
+}
+ 
+
+
+ 
 });
+
+
 
 newGameBtn.addEventListener('click', () => {
   guessValue = Math.floor(Math.random() * 100 + 1);
-  // userInpEl.value = '';
-  form.reset();
-  userValArr = [];
   userGuessEl.innerText = '';
+  msgContainer.classList.add('hidden');
+  msgEl.style = `color: #0369A1;
+  font-weight: 700;`;
+  msgContainer.style.backgroundColor = 'white';
   submitBtn.disabled = false;
   newGameBtn.setAttribute('disabled', true);
-  msgContainer.classList.add('hidden');
-
-  msgEl.style = `color: #0369A1;
-
-              font-weight: 700;`;
-
   userGuessEl.style.color = 'black';
-  msgContainer.style.backgroundColor = 'white';
+  // resetGame()
+
+  form.reset();
+  userValArr = [];
+  count=0;
   userInpEl.focus()
 });
+
+ 
